@@ -20,7 +20,9 @@ const AppRoutes: React.FC = () => (
     />
     <stackRoutes.Screen
       name="PokemonDetails"
-      options={({route}) => ({title: route.params.name.replace(/\b(\w)/g, s => s.toUpperCase())})}
+      options={({route}) => ({
+        title: route.params.name.replace(/\b(\w)/g, s => s.toUpperCase()),
+      })}
       component={PokemonDetails}
     />
   </stackRoutes.Navigator>

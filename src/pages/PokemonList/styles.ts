@@ -8,6 +8,7 @@ export const Container = styled.View`
 `;
 
 export const ListView = styled.View`
+  width: 100%;
   align-items: center;
   background-color: #c4c4c4;
 `;

@@ -72,6 +72,7 @@ export default function PokemonList() {
           ListFooterComponent={
             loadingMore ? <ActivityIndicator color={colors.blue_dark} /> : <></>
           }
+          numOfColumns={2}
         />
       </S.ListView>
     </S.Container>

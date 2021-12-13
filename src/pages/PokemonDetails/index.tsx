@@ -49,7 +49,11 @@ export default function PokemonDetails() {
   }, []);
 
   if (loading) {
-    return <ActivityIndicator />;
+    return (
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size={'large'} />
+      </View>
+    );
   }
   return (
     <S.Container>
