@@ -1,7 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import React, {useCallback} from 'react';
 import {Pokemon} from '../../pages/PokemonList';
-import {View} from 'react-native';
 import * as S from './styles';
 
 interface PokemonProps {
@@ -11,16 +10,16 @@ interface PokemonProps {
 export default function Card({item}: PokemonProps) {
   const navigation = useNavigation();
 
-  const handlePokemonList = useCallback(
-    (id: string) => {
-      navigation.navigate('PokemonList', {id});
+  const handlePress = useCallback(
+    (url: string) => {
+      navigation.navigate('PokemonDetails', {url, name: item.name});
     },
-    [navigation],
+    [navigation, item.name],
   );
-  console.log(item);
+
   return (
     <>
-      <S.CardContainer onPress={() => handlePress(item.url)}>
+      <S.CardContainer onPress={() => handlePress(item.url, item.name)}>
         <S.CardInformation>
           <S.CardTitle
             ellipsizeMode="tail"

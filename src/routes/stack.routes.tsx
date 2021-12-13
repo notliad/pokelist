@@ -1,6 +1,5 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Welcome from '../pages/Welcome';
 import colors from '../styles/colors';
 import PokemonList from '../pages/PokemonList';
 import PokemonDetails from '../pages/PokemonDetails';
@@ -14,8 +13,16 @@ const AppRoutes: React.FC = () => (
         backgroundColor: colors.white,
       },
     }}>
-    <stackRoutes.Screen name="PokemonList" component={PokemonList} />
-    <stackRoutes.Screen name="PokemonDetails" component={PokemonDetails} />
+    <stackRoutes.Screen
+      options={{headerShown: false}}
+      name="PokemonList"
+      component={PokemonList}
+    />
+    <stackRoutes.Screen
+      name="PokemonDetails"
+      options={({route}) => ({title: route.params.name.replace(/\b(\w)/g, s => s.toUpperCase())})}
+      component={PokemonDetails}
+    />
   </stackRoutes.Navigator>
 );
 

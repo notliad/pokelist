@@ -1,12 +1,13 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import api from '../../services/api';
-import {Linking, View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, FlatList} from 'react-native';
 import * as S from './styles';
 
 type ParamList = {
   PokemonDetails: {
-    id: string;
+    url: string;
+    name: string;
   };
 };
 export interface Pokemon {
@@ -22,12 +23,20 @@ export interface Pokemon {
   species: string;
 }
 
-export default function PokemonDetails({url}) {
+export default function PokemonDetails() {
   const [pokemon, setPokemon] = useState<Pokemon>();
   const [loading, setLoading] = useState(true);
 
   const route = useRoute<RouteProp<ParamList, 'PokemonDetails'>>();
-  const {id} = route.params;
+  const {url} = route.params;
+
+  const renderTypes = useCallback(types => {
+    return (
+      <S.PokemonText style={{textTransform: 'capitalize'}}>
+        {types.item.type.name}
+      </S.PokemonText>
+    );
+  }, []);
 
   useEffect(() => {
     api.get(url).then(response => {
@@ -39,84 +48,41 @@ export default function PokemonDetails({url}) {
     });
   }, []);
 
-  const handleGoogle = useCallback(async searchName => {
-    Linking.openURL(
-      `https://www.google.com/search?q=${searchName}+rick+and+morty`,
-    );
-  }, []);
-
   if (loading) {
     return <ActivityIndicator />;
   }
   return (
     <S.Container>
-      <S.PokemonImage source={{uri: pokemon.image}} resizeMode="cover" />
+      <S.PokemonImage
+        source={{uri: pokemon.sprites.front_default}}
+        resizeMode="contain"
+        resizeMethod="scale"
+      />
       <S.PokemonInfo>
         <S.ViewRow>
-          <S.PokemonTitle numberOfLines={1}>{pokemon.name}</S.PokemonTitle>
-        </S.ViewRow>
-
-        <S.ViewRow>
           <View>
-            <S.PokemonSubTitle>Espécie:</S.PokemonSubTitle>
-            <S.PokemonText>
-              {pokemon.species === 'Human' ? 'Humano' : pokemon.species}
-            </S.PokemonText>
-          </View>
-          <View>
-            <S.PokemonSubTitle>Gênero:</S.PokemonSubTitle>
-            {pokemon.gender !== 'Genderless' && pokemon.gender !== 'unknown' ? (
-              <S.PokemonText>
-                {pokemon.gender === 'Male' ? 'Masculino' : 'Feminino'}
-              </S.PokemonText>
-            ) : (
-              <S.PokemonText>
-                {pokemon.gender === 'Genderless'
-                  ? 'Sem gênero'
-                  : 'Desconhecido'}
-              </S.PokemonText>
-            )}
+            <S.PokemonAttr>Tipo:</S.PokemonAttr>
+            <FlatList
+              data={pokemon.types}
+              keyExtractor={(item, index) => index}
+              renderItem={({item}) => renderTypes({item})}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </S.ViewRow>
-
         <S.ViewRow>
           <View>
-            <S.PokemonSubTitle>Localização:</S.PokemonSubTitle>
-            <S.PokemonText>
-              {pokemon.location.name === 'Earth (Replacement Dimension)'
-                ? 'Terra Substituta'
-                : pokemon.location.name}
-            </S.PokemonText>
+            <S.PokemonAttr>Peso:</S.PokemonAttr>
+            <S.PokemonText>{`${pokemon.weight / 10} kg`}</S.PokemonText>
           </View>
         </S.ViewRow>
-
         <S.ViewRow>
-          <S.View>
-            <S.PokemonSubTitle>Origem:</S.PokemonSubTitle>
-            <S.PokemonText>
-              {pokemon.origin.name === 'Earth (Replacement Dimension)'
-                ? 'Terra Substituta'
-                : pokemon.origin.name}
-            </S.PokemonText>
-          </S.View>
           <View>
-            <S.PokemonSubTitle>Status:</S.PokemonSubTitle>
-            {pokemon.status !== 'unknown' ? (
-              <S.PokemonStatus
-                status={pokemon.status === 'Alive' ? 'alive' : 'dead'}>
-                {pokemon.status === 'Alive' ? 'Vivo' : 'Morto'}
-              </S.PokemonStatus>
-            ) : (
-              <S.PokemonStatus status={pokemon.status}>
-                Desconhecido
-              </S.PokemonStatus>
-            )}
+            <S.PokemonAttr>Altura:</S.PokemonAttr>
+            <S.PokemonText>{`${pokemon.height / 10} m`}</S.PokemonText>
           </View>
         </S.ViewRow>
       </S.PokemonInfo>
-      <S.Footer onPress={() => handleGoogle(pokemon.name)}>
-        <S.FooterText>Buscar no Google</S.FooterText>
-      </S.Footer>
     </S.Container>
   );
 }

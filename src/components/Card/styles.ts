@@ -4,7 +4,7 @@ export const CardContainer = styled.TouchableOpacity`
   flex-direction: row;
   background: #f0f0f5;
   border-radius: 6px;
-  margin: 0px 15px 10px 15px;
+  margin: 10px 15px 0px 15px;
 `;
 
 export const CardInformation = styled.View`

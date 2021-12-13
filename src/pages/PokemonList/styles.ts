@@ -17,7 +17,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 125px;
+  height: 100px;
   padding: 0 20px;
   background: #e4000f;
 `;
