@@ -16,6 +16,8 @@ export default function Card({item}: PokemonProps) {
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(true);
 
+  //Pela limitação da API, as imagens ficam armazenadas somente no show dos pokemons, então escolhi chamar as
+  //imagens aqui dentro para cada card ser responsável por sua renderização e evitar despareamento trabalhando com duas listas
   const loadImage = useCallback(
     async url => {
       const {data} = await api.get(item.url);

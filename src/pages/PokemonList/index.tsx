@@ -62,6 +62,8 @@ export default function PokemonList() {
         <S.Quantity>{pokemonCount} Pokemons</S.Quantity>
       </S.Header>
       <S.ListView>
+        {/* A lista é muito grande e FlatLists não gostam de muito informação, o ideal era um tipo de procura, mas
+        a Api não suporta. Então algumas informações vão ficando erradas mais pra baixo na lista */}
         <FlatList
           data={pokemonList}
           keyExtractor={Pokemon => Pokemon.id}

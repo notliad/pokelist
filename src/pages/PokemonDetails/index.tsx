@@ -50,6 +50,8 @@ export default function PokemonDetails() {
 
   if (loading) {
     return (
+      //Algumas vezes utilizo inline styles para facilitar a leitura e quando a View é bem específica, evitando criar um style
+      // para uma utilização única
       <View style={{flex: 1, justifyContent: 'center'}}>
         <ActivityIndicator size={'large'} />
       </View>
@@ -77,6 +79,7 @@ export default function PokemonDetails() {
         <S.ViewRow>
           <View>
             <S.PokemonAttr>Peso:</S.PokemonAttr>
+            {/* As unidades estão traduzidas para métricas mais utilizadas */}
             <S.PokemonText>{`${pokemon.weight / 10} kg`}</S.PokemonText>
           </View>
         </S.ViewRow>
