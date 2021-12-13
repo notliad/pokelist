@@ -19,10 +19,9 @@ export default function Card({item}: PokemonProps) {
   const loadImage = useCallback(
     async url => {
       const {data} = await api.get(item.url);
-      console.log(data);
       setImage(data.sprites.front_default);
     },
-    [setImage],
+    [setImage, item.url],
   );
 
   const handlePress = useCallback(
